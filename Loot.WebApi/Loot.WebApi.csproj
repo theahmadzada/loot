@@ -4,15 +4,23 @@
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>620098fd-0de2-41a1-8b44-5cedb0f8d0b6</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.5" />
+        <PackageReference Include="Scalar.AspNetCore" Version="2.13.22" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Endpoints\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Loot.Application\Loot.Application.csproj" />
+      <ProjectReference Include="..\Loot.Infrastructure\Loot.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
