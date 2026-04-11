@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Loot.Application/Loot.Application.csproj" />
+  <Project Path="Loot.Domain/Loot.Domain.csproj" />
+  <Project Path="Loot.Host/Loot.Host.csproj" />
+  <Project Path="Loot.Infrastructure/Loot.Infrastructure.csproj" />
+  <Project Path="Loot.WebApi/Loot.WebApi.csproj" />
+</Solution>
