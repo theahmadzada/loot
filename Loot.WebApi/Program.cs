@@ -2,7 +2,6 @@ using FluentValidation;
 using Loot.Application.Commands;
 using Loot.Infrastructure.Consumers;
 using Loot.Infrastructure.DbContext;
-using Loot.Shared.Settings;
 using Loot.WebApi;
 using Loot.WebApi.Endpoints.User;
 using Loot.WebApi.ExceptionHandler;
@@ -23,14 +22,7 @@ builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureIdentity();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
 builder.Services.ConfigureServices();
-builder.Services.AddOptions<EmailSettings>()
-    .BindConfiguration(EmailSettings.SectionName)
-    .ValidateDataAnnotations()
-    .ValidateOnStart();
-builder.Services.AddOptions<JwtSettings>()
-    .BindConfiguration(JwtSettings.SectionName)
-    .ValidateDataAnnotations()
-    .ValidateOnStart();
+builder.Services.ConfigureOptions();
 
 var app = builder.Build();
 

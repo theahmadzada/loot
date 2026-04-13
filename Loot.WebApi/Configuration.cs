@@ -5,6 +5,7 @@ using Loot.Domain.Entities;
 using Loot.Infrastructure.DbContext;
 using Loot.Infrastructure.ServiceContracts;
 using Loot.Infrastructure.Services;
+using Loot.Shared.Settings;
 
 using MediatR;
 
@@ -68,6 +69,20 @@ public static class Configuration
     {
         services.AddTransient<IEmailService, EmailService>();
         services.AddTransient<IJwtService, JwtService>();
+        
+        return services;
+    }
+
+    public static IServiceCollection ConfigureOptions(this IServiceCollection services)
+    {
+        services.AddOptions<EmailSettings>()
+            .BindConfiguration(EmailSettings.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+        services.AddOptions<JwtSettings>()
+            .BindConfiguration(JwtSettings.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
         
         return services;
     }
