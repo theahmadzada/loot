@@ -4,5 +4,8 @@ namespace Loot.Domain.Entities;
 
 public class User : IdentityUser<Guid>
 {
-    
+    public required string FirstName { get; set; }
+    public required string LastName { get; set; }
+    public string? RefreshToken { get; set; }
+    public DateTimeOffset RefreshTokenExpires { get; set; }
 }

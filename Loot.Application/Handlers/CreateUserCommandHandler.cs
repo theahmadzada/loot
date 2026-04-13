@@ -1,0 +1,54 @@
+using ErrorOr;
+using Loot.Application.Commands;
+using Loot.Application.Dtos;
+using Loot.Domain.Entities;
+using Loot.Shared.Events;
+using MassTransit;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+
+namespace Loot.Application.Handlers;
+
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ErrorOr<UserDto>>
+{
+    private readonly UserManager<User> _userManager;
+    private readonly IPublishEndpoint _endpoint;
+    
+    public CreateUserCommandHandler(UserManager<User> userManager, IPublishEndpoint endpoint)
+    {
+        _userManager = userManager;
+        _endpoint = endpoint;
+    }
+    
+    public async Task<ErrorOr<UserDto>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    {
+        var user = new User
+        {
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Email = request.Email,
+            UserName = request.Email
+        };
+        
+        var result = await _userManager.CreateAsync(user, request.Password);
+
+        if (!result.Succeeded)
+        {
+            return result.Errors
+                .Select(e => Error.Validation(e.Code, e.Description))
+                .ToList();
+        }
+            
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        await _endpoint.Publish(
+            new UserCreatedEvent
+            {
+                Id = user.Id, 
+                Email = user.Email,
+                FirstName = user.FirstName, 
+                LastName = user.LastName,
+                Token = token
+            }, cancellationToken);
+        return (UserDto)user;
+    }
+}
