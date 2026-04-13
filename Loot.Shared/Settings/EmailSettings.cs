@@ -7,16 +7,14 @@ public record EmailSettings
     public const string SectionName = "EmailSettings";
     
     [Required(AllowEmptyStrings = false)]
-    public string From { get; set; } =  string.Empty;
+    public string From { get; init; } =  string.Empty;
     
     [Required(AllowEmptyStrings = false)]
-    public string Host { get; set; } =  string.Empty;
+    public string Host { get; init; } =  string.Empty;
     
-    public int Port { get; set; }
+    public int Port { get; init; }
     
-    [Required(AllowEmptyStrings = false)]
-    public string Username { get; set; } = string.Empty;
+    public string? Username { get; init; }
     
-    [Required(AllowEmptyStrings = false)]
-    public string Password { get; set; } = string.Empty;
+    public string? Password { get; init; } 
 }
