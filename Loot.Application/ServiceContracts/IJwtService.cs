@@ -1,9 +1,11 @@
 using System.Security.Claims;
 
+using Loot.Application.Dtos;
+
 namespace Loot.Application.ServiceContracts;
 
 public interface IJwtService
 {
-    string GenerateAccessToken(IEnumerable<Claim> claims);
-    string GenerateRefreshToken();
+    TokenDto GenerateAccessToken(IEnumerable<Claim> claims);
+    TokenDto GenerateRefreshToken();
 }

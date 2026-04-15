@@ -86,6 +86,10 @@ public static class Configuration
             .BindConfiguration(JwtSettings.SectionName)
             .ValidateDataAnnotations()
             .ValidateOnStart();
+        services.AddOptions<RefreshTokenSettings>()
+            .BindConfiguration(RefreshTokenSettings.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
         
         return services;
     }
