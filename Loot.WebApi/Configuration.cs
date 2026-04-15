@@ -1,4 +1,5 @@
 using Loot.Application.Common;
+using Loot.Application.Handlers;
 using Loot.Application.ServiceContracts;
 using Loot.Application.Services;
 using Loot.Domain.Entities;
@@ -10,6 +11,7 @@ using Loot.Shared.Settings;
 using MediatR;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Loot.WebApi;
@@ -20,7 +22,7 @@ public static class Configuration
     {
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+            cfg.RegisterServicesFromAssembly(typeof(ConfirmEmailCommandHandler).Assembly);
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         });
         
@@ -32,7 +34,7 @@ public static class Configuration
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
@@ -60,7 +62,8 @@ public static class Configuration
                 options.Password.RequiredLength = 8;
                 options.User.RequireUniqueEmail = true;
             })
-            .AddEntityFrameworkStores<LootDbContext>();
+            .AddEntityFrameworkStores<LootDbContext>()
+            .AddDefaultTokenProviders();
         
         return services;
     }

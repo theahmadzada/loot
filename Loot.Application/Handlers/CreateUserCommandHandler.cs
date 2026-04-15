@@ -1,3 +1,5 @@
+using System.Text;
+
 using ErrorOr;
 using Loot.Application.Commands;
 using Loot.Application.Dtos;
@@ -6,6 +8,7 @@ using Loot.Shared.Events;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace Loot.Application.Handlers;
 
@@ -40,6 +43,8 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Error
         }
             
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+        
         await _endpoint.Publish(
             new UserCreatedEvent
             {
@@ -47,7 +52,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Error
                 Email = user.Email,
                 FirstName = user.FirstName, 
                 LastName = user.LastName,
-                Token = token
+                Token = encodedToken,
             }, cancellationToken);
         return (UserDto)user;
     }

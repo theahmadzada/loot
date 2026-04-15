@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Loot.WebApi\Loot.WebApi.csproj" />
+      <ProjectReference Include="..\MigrationService\MigrationService.csproj" />
     </ItemGroup>
 
 </Project>

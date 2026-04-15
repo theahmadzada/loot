@@ -12,11 +12,18 @@ var mailDev = builder.AddContainer("maildev", "maildev/maildev")
     .WithEndpoint(port: 1025, targetPort: 1025, name: "smtp")
     .WithExternalHttpEndpoints();  
 
+var migrations = builder.AddProject<Projects.MigrationService>("migrations")
+    .WithReference(psql)
+    .WaitFor(psql);
+
 builder.AddProject<Projects.Loot_WebApi>("webapi")
     .WithReference(psql)
     .WaitFor(psql)
     .WithReference(rabbitmq)
     .WaitFor(rabbitmq)
     .WithReference(mailDev.GetEndpoint("smtp"))
-    .WaitFor(mailDev);
+    .WaitFor(mailDev)
+    .WithReference(migrations)
+    .WaitForCompletion(migrations);
+
 builder.Build().Run();

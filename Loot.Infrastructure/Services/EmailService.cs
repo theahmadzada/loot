@@ -28,7 +28,7 @@ public class EmailService : IEmailService
 
         using var client = new SmtpClient();
         await client.ConnectAsync(options.Host, options.Port, cancellationToken: cancellationToken);
-        await client.AuthenticateAsync(options.Username, options.Password, cancellationToken);
+        // await client.AuthenticateAsync(options.Username, options.Password, cancellationToken);
         await client.SendAsync(message, cancellationToken);
         await client.DisconnectAsync(true, cancellationToken);
     }
