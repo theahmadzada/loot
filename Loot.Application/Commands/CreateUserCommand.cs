@@ -18,20 +18,21 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 {
     public CreateUserCommandValidator()
     {
-        RuleFor(user => user.FirstName)
-            .MaximumLength(15)
-            .NotEmpty();
-        RuleFor(user => user.LastName)
-            .MaximumLength(15)
-            .NotEmpty();
-        RuleFor(user => user.Email)
-            .EmailAddress()
-            .NotEmpty();
-        RuleFor(user => user.Password)
-            .NotEmpty()
-            .MinimumLength(8);
-        RuleFor(user => user.ConfirmPassword)
-            .Equal(user => user.Password)
+        RuleFor(option => option.FirstName)
+            .NotEmpty().WithMessage("First name is required.")
+            .MaximumLength(30).WithMessage("First name cannot exceed 30 characters.");
+        RuleFor(option => option.LastName)
+            .NotEmpty().WithMessage("Last name is required.")
+            .MaximumLength(30).WithMessage("Last name cannot exceed 30 characters.");
+        RuleFor(option => option.Email)
+            .NotEmpty().WithMessage("Email is required.")
+            .EmailAddress();
+        RuleFor(option => option.Password)
+            .NotEmpty().WithMessage("Password is required.")
+            .MinimumLength(8).WithMessage("Password must have at least 8 characters.");
+        RuleFor(option => option.ConfirmPassword)
+            .NotEmpty().WithMessage("Confirm password is required.")
+            .Equal(option => option.Password)
             .WithMessage("Password and confirm password do not match.");
     }
 }

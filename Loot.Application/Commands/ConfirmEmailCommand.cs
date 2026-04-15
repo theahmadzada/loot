@@ -18,11 +18,11 @@ public class ConfirmEmailCommandValidator : AbstractValidator<ConfirmEmailComman
     public ConfirmEmailCommandValidator()
     {
         RuleFor(options => options.Id)
-            .NotEmpty();
+            .NotEmpty().WithMessage("Id is required.");
         RuleFor(options => options.Email)
-            .EmailAddress()
-            .NotEmpty();
+            .NotEmpty().WithMessage("Email is required.")
+            .EmailAddress();
         RuleFor(options => options.Token)
-            .NotEmpty();
+            .NotEmpty().WithMessage("Token is required.");;
     }
 }
