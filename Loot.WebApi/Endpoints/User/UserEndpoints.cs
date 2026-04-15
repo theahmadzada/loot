@@ -14,6 +14,12 @@ public static class UserEndpoints
             return result.Match(user => Results.Ok(user), errors => Results.BadRequest(errors));
         });
 
+        app.MapPost("/email", async (ConfirmEmailCommand command, ISender meadiator, CancellationToken cancellationToken) =>
+        {
+            var result = await meadiator.Send(command, cancellationToken);
+            return result.Match(id => Results.Ok(id), errors => Results.BadRequest(errors));
+        });
+        
         return app;
     }
 }
