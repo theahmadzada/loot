@@ -3,9 +3,12 @@ using System.Text;
 using ErrorOr;
 using Loot.Application.Commands;
 using Loot.Application.Dtos;
+using Loot.Domain;
 using Loot.Domain.Entities;
 using Loot.Shared.Events;
 using MassTransit;
+using MassTransit.SqlTransport;
+
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
@@ -34,14 +37,21 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Error
         };
         
         var result = await _userManager.CreateAsync(user, request.Password);
-
         if (!result.Succeeded)
         {
             return result.Errors
                 .Select(e => Error.Validation(e.Code, e.Description))
                 .ToList();
         }
-            
+
+        var roleResult = await _userManager.AddToRoleAsync(user, UserRoles.User);
+        if (!roleResult.Succeeded)
+        {
+            return result.Errors
+                .Select(e => Error.Unexpected(e.Code, e.Description))
+                .ToList();
+        }
+        
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
         

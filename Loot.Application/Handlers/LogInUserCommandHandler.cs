@@ -52,7 +52,8 @@ public class LogInUserCommandHandler : IRequestHandler<LogInUserCommand, ErrorOr
         user.RefreshTokenExpires = refreshToken.Expires;
         
         var updateResult = await _userManager.UpdateAsync(user);
-        if (!updateResult.Succeeded) return Error.Unexpected("User.NotUpdated", "User not updated");
+        if (!updateResult.Succeeded) 
+            return updateResult.Errors.Select(x => Error.Unexpected(x.Code, x.Description)).ToList();
         
         return new LogInDto()
         {
