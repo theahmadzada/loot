@@ -10,6 +10,7 @@ public class LootDbContext(DbContextOptions<LootDbContext> options) : IdentityDb
     DbSet<Board> Boards { get; set; }
     DbSet<Column> Columns { get; set; }
     DbSet<TaskItem>  Tasks { get; set; }
+    DbSet<BoardMember> Members { get; set; }
 }
 
 public class LootDbContextFactory : IDesignTimeDbContextFactory<LootDbContext>

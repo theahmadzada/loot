@@ -7,7 +7,6 @@ using Loot.Domain;
 using Loot.Domain.Entities;
 using Loot.Shared.Events;
 using MassTransit;
-using MassTransit.SqlTransport;
 
 using MediatR;
 using Microsoft.AspNetCore.Identity;
