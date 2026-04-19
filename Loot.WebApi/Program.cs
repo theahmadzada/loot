@@ -30,6 +30,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>
 builder.Services.ConfigureServices();
 builder.Services.ConfigureOptions();
 builder.Services.ConfigureSerilog(builder.Configuration);
+builder.Services.ConfigureCors();
 
 var app = builder.Build();
 
@@ -40,8 +41,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseExceptionHandler();
-app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
+app.UseHsts();
+app.UseHttpsRedirection();
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
