@@ -8,6 +8,8 @@ using Loot.WebApi.Endpoints.User;
 using Loot.WebApi.ExceptionHandler;
 using Scalar.AspNetCore;
 
+using Serilog;
+
 using ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +29,7 @@ builder.Services.ConfigureIdentity();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
 builder.Services.ConfigureServices();
 builder.Services.ConfigureOptions();
+builder.Services.ConfigureSerilog(builder.Configuration);
 
 var app = builder.Build();
 
@@ -38,6 +41,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
+app.UseSerilogRequestLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();

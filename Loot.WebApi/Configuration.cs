@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
+using Serilog;
+
 namespace Loot.WebApi;
 
 public static class Configuration
@@ -91,6 +93,17 @@ public static class Configuration
             .BindConfiguration(RefreshTokenSettings.SectionName)
             .ValidateDataAnnotations()
             .ValidateOnStart();
+        
+        return services;
+    }
+
+    public static IServiceCollection ConfigureSerilog(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSerilog((provider, lc) =>
+        {
+            lc.ReadFrom.Configuration(configuration);
+            lc.ReadFrom.Services(provider);
+        });
         
         return services;
     }
