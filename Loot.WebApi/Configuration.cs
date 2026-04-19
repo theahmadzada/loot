@@ -1,5 +1,6 @@
 using Loot.Application.Common;
 using Loot.Application.Handlers;
+using Loot.Application.Handlers.Commands;
 using Loot.Application.ServiceContracts;
 using Loot.Application.Services;
 using Loot.Domain.Entities;

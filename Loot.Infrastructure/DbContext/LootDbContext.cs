@@ -7,10 +7,10 @@ namespace Loot.Infrastructure.DbContext;
 
 public class LootDbContext(DbContextOptions<LootDbContext> options) : IdentityDbContext<User, Role, Guid>(options)
 {
-    DbSet<Board> Boards { get; set; }
-    DbSet<Column> Columns { get; set; }
-    DbSet<TaskItem>  Tasks { get; set; }
-    DbSet<BoardMember> Members { get; set; }
+    public DbSet<Board> Boards { get; set; }
+    public DbSet<Column> Columns { get; set; }
+    public DbSet<TaskItem>  Tasks { get; set; }
+    public DbSet<BoardMember> Members { get; set; }
 }
 
 public class LootDbContextFactory : IDesignTimeDbContextFactory<LootDbContext>

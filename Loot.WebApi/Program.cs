@@ -3,9 +3,12 @@ using Loot.Application.Commands;
 using Loot.Infrastructure.Consumers;
 using Loot.Infrastructure.DbContext;
 using Loot.WebApi;
+using Loot.WebApi.Endpoints.Board;
 using Loot.WebApi.Endpoints.User;
 using Loot.WebApi.ExceptionHandler;
 using Scalar.AspNetCore;
+
+using ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,4 +43,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.RegisterUserEndpoints();
+app.RegisterBoardEndpoints();
 app.Run();

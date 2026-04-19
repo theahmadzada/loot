@@ -1,18 +1,21 @@
 using System.Text;
 
 using ErrorOr;
+
 using Loot.Application.Commands;
 using Loot.Application.Dtos;
 using Loot.Domain;
 using Loot.Domain.Entities;
 using Loot.Shared.Events;
+
 using MassTransit;
 
 using MediatR;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace Loot.Application.Handlers;
+namespace Loot.Application.Handlers.Commands;
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ErrorOr<UserDto>>
 {

@@ -3,7 +3,6 @@ using System.Security.Claims;
 
 using ErrorOr;
 
-using Microsoft.AspNetCore.Identity;
 using Loot.Application.Commands;
 using Loot.Application.Dtos;
 using Loot.Application.ServiceContracts;
@@ -11,7 +10,9 @@ using Loot.Domain.Entities;
 
 using MediatR;
 
-namespace Loot.Application.Handlers;
+using Microsoft.AspNetCore.Identity;
+
+namespace Loot.Application.Handlers.Commands;
 
 public class LogInUserCommandHandler : IRequestHandler<LogInUserCommand, ErrorOr<LogInDto>>
 {
