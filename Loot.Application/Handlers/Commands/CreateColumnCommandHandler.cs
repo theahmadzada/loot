@@ -23,14 +23,14 @@ public class CreateColumnCommandHandler : IRequestHandler<CreateColumnCommand, E
 
     public async Task<ErrorOr<ColumnDto>> Handle(CreateColumnCommand request, CancellationToken cancellationToken)
     {
-        var board = await _context.Boards.FirstOrDefaultAsync(x => x.Id == request.BoardId, cancellationToken: cancellationToken);
-        if (board == null)
+        var board = await _context.Boards.AnyAsync(x => x.Id == request.BoardId, cancellationToken: cancellationToken);
+        if (!board)
         {
             return Error.NotFound("Board.NotFound", "Board not found");
         }
 
-        var member = await _context.Members.FirstOrDefaultAsync(x => x.Board == board && 
-                                                               x.UserId == request.UserId, cancellationToken);
+        var member = await _context.Members.FirstOrDefaultAsync(x => x.BoardId == request.BoardId && 
+                                                                     x.UserId == request.UserId, cancellationToken);
         if (member == null)
         {
             return Error.NotFound("Member.NotFound", "Member not found");
@@ -41,7 +41,7 @@ public class CreateColumnCommandHandler : IRequestHandler<CreateColumnCommand, E
             return Error.Forbidden("Member.Forbidden", "Member not allowed");
         }
         
-        var column = new Column() { Name = request.Name, Board = board };
+        var column = new Column() { Name = request.Name, BoardId = request.BoardId };
         var result = await _context.Columns.AddAsync(column, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
