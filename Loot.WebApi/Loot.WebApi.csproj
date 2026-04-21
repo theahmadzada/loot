@@ -29,4 +29,8 @@
       <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Endpoints\Column\" />
+    </ItemGroup>
+
 </Project>
