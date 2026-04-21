@@ -3,6 +3,7 @@ using ErrorOr;
 using Loot.Application.Commands;
 using Loot.Application.Dtos;
 using Loot.Domain.Entities;
+using Loot.Domain.Enums;
 using Loot.Infrastructure.DbContext;
 
 using MediatR;
@@ -28,14 +29,22 @@ public class CreateColumnCommandHandler : IRequestHandler<CreateColumnCommand, E
             return Error.NotFound("Board.NotFound", "Board not found");
         }
 
+        var member = await _context.Members.FirstOrDefaultAsync(x => x.Board == board && 
+                                                               x.UserId == request.UserId, cancellationToken);
+        if (member == null)
+        {
+            return Error.NotFound("Member.NotFound", "Member not found");
+        }
+
+        if (member.Role != BoardRole.Owner)
+        {
+            return Error.Forbidden("Member.Forbidden", "Member not allowed");
+        }
+        
         var column = new Column() { Name = request.Name, Board = board };
         var result = await _context.Columns.AddAsync(column, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        
-        return new ColumnDto()
-        {
-            Id = result.Entity.Id,
-            Name = result.Entity.Name
-        };
+
+        return new ColumnDto() { Id = result.Entity.Id, Name = result.Entity.Name };
     }
 }
