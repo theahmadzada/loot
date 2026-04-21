@@ -33,6 +33,8 @@ public class CreateBoardCommandHandler : IRequestHandler<CreateBoardCommand, Err
         board.Members.Add(member);
         
         var createdBoard = await _lootDbContext.Boards.AddAsync(board, cancellationToken);
+        await _lootDbContext.SaveChangesAsync(cancellationToken);
+        
         return new BoardDto() { Id = createdBoard.Entity.Id, Name = createdBoard.Entity.Name, };
     }
 }
