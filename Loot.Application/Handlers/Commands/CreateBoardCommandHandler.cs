@@ -29,7 +29,7 @@ public class CreateBoardCommandHandler : IRequestHandler<CreateBoardCommand, Err
         if (user == null) return Error.NotFound("User.NotFound", "User not found");
         
         var board = new Board() { Name = request.Name, CreatedAt = DateTimeOffset.UtcNow};
-        var member = new BoardMember() { UserId = user.Id, Board = board, Role = BoardRole.Owner };
+        var member = new BoardMember() { UserId = user.Id, AppUser = user, BoardId = board.Id, Board = board, Role = BoardRole.Owner };
         board.Members.Add(member);
         
         var createdBoard = await _lootDbContext.Boards.AddAsync(board, cancellationToken);
