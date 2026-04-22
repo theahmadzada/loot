@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Loot.Infrastructure.DbContext;
 
-public class LootDbContext(DbContextOptions<LootDbContext> options) : IdentityDbContext<User, Role, Guid>(options)
+public class LootDbContext(DbContextOptions<LootDbContext> options) : IdentityDbContext<AppUser, AppRole, Guid>(options)
 {
     public DbSet<Board> Boards { get; set; }
     public DbSet<Column> Columns { get; set; }
