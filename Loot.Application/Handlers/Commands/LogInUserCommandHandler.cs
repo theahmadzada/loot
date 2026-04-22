@@ -16,10 +16,10 @@ namespace Loot.Application.Handlers.Commands;
 
 public class LogInUserCommandHandler : IRequestHandler<LogInUserCommand, ErrorOr<LogInDto>>
 {
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<AppUser> _userManager;
     private readonly IJwtService _jwtService;
     
-    public LogInUserCommandHandler(UserManager<User> userManager, IJwtService jwtService)
+    public LogInUserCommandHandler(UserManager<AppUser> userManager, IJwtService jwtService)
     {
         _userManager = userManager;
         _jwtService = jwtService;

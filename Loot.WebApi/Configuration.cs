@@ -55,7 +55,7 @@ public static class Configuration
 
     public static IServiceCollection ConfigureIdentity(this IServiceCollection services)
     {
-        services.AddIdentity<User, Role>(options =>
+        services.AddIdentity<AppUser, AppRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequireDigit = true;

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Loot.Domain.Entities;
 
-public class User : IdentityUser<Guid>
+public class AppUser : IdentityUser<Guid>
 {
     public required string FirstName { get; set; }
     public required string LastName { get; set; }

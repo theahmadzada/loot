@@ -14,9 +14,9 @@ namespace Loot.Application.Handlers.Commands;
 
 public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, ErrorOr<Guid>>
 {
-    private readonly UserManager<User>  _userManager;
+    private readonly UserManager<AppUser>  _userManager;
 
-    public ConfirmEmailCommandHandler(UserManager<User> userManager)
+    public ConfirmEmailCommandHandler(UserManager<AppUser> userManager)
     {
         _userManager = userManager;
     }

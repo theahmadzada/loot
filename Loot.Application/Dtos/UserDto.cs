@@ -9,14 +9,14 @@ public record UserDto
     public required string LastName { get; init; }
     public required string Email { get; init; }
 
-    public static explicit operator UserDto(User user)
+    public static explicit operator UserDto(AppUser appUser)
     {
         return new UserDto
         {
-            Id = user.Id,
-            Email = user.Email!,
-            FirstName = user.FirstName,
-            LastName = user.LastName
+            Id = appUser.Id,
+            Email = appUser.Email!,
+            FirstName = appUser.FirstName,
+            LastName = appUser.LastName
         };
     }
 }

@@ -15,9 +15,9 @@ namespace Loot.Application.Handlers.Commands;
 public class CreateBoardCommandHandler : IRequestHandler<CreateBoardCommand, ErrorOr<BoardDto>>
 {
     private readonly LootDbContext _lootDbContext;
-    private readonly UserManager<User> _userManager; 
+    private readonly UserManager<AppUser> _userManager; 
         
-    public CreateBoardCommandHandler(LootDbContext lootDbContext, UserManager<User> userManager)
+    public CreateBoardCommandHandler(LootDbContext lootDbContext, UserManager<AppUser> userManager)
     {
         _lootDbContext = lootDbContext;
         _userManager = userManager;

@@ -1,5 +1,7 @@
 using System.Diagnostics;
 
+using Loot.Domain;
+using Loot.Domain.Entities;
 using Loot.Infrastructure.DbContext;
 
 using Microsoft.EntityFrameworkCore;
@@ -23,8 +25,9 @@ public class Worker(
         {
             using var scope = serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<LootDbContext>();
-
+            
             await RunMigrationAsync(dbContext, cancellationToken);
+            await SeedAsync(dbContext, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -43,5 +46,34 @@ public class Worker(
         {
             await dbContext.Database.MigrateAsync(cancellationToken);
         });
+    }
+
+    private static async Task SeedAsync(LootDbContext dbContext, CancellationToken cancellationToken)
+    {
+        var strategy = dbContext.Database.CreateExecutionStrategy();
+        await strategy.ExecuteAsync(async () =>
+            {
+                var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
+
+                await dbContext.Roles.AddAsync(
+                    new AppRole()
+                    {
+                        ConcurrencyStamp = Guid.NewGuid().ToString(),
+                        Name = UserRoles.Admin,
+                        NormalizedName = UserRoles.Admin.ToUpper(),
+                    }, cancellationToken);
+
+                await dbContext.Roles.AddAsync(
+                    new AppRole()
+                    {
+                        ConcurrencyStamp = Guid.NewGuid().ToString(),
+                        Name = UserRoles.Admin,
+                        NormalizedName = UserRoles.Admin.ToUpper(),
+                    }, cancellationToken);
+
+                await dbContext.SaveChangesAsync(cancellationToken);
+                await transaction.CommitAsync(cancellationToken);
+            }
+        );
     }
 }

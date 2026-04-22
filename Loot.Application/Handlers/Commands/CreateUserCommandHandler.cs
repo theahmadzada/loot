@@ -19,10 +19,10 @@ namespace Loot.Application.Handlers.Commands;
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ErrorOr<UserDto>>
 {
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<AppUser> _userManager;
     private readonly IPublishEndpoint _endpoint;
     
-    public CreateUserCommandHandler(UserManager<User> userManager, IPublishEndpoint endpoint)
+    public CreateUserCommandHandler(UserManager<AppUser> userManager, IPublishEndpoint endpoint)
     {
         _userManager = userManager;
         _endpoint = endpoint;
@@ -30,7 +30,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Error
     
     public async Task<ErrorOr<UserDto>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = new User
+        var user = new AppUser
         {
             FirstName = request.FirstName,
             LastName = request.LastName,
